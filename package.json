@@ -1,0 +1,20 @@
+{
+  "name": "ds-upright",
+  "version": "0.0.1",
+  "description": "A project in Insight Data Science",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aunz/ds-upright.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aunz/ds-upright/issues"
+  },
+  "homepage": "https://github.com/aunz/ds-upright#readme"
+}
