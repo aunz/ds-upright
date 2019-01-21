@@ -8,9 +8,9 @@ navigator.mediaDevices.getUserMedia({ audio: false, video: true })
       player.play()
       window.player = player
 
+      const canvas = document.getElementById("myCanvas")
       const w = 320
       const h = w * 3 / 4
-      const canvas = document.getElementById("myCanvas")
       canvas.width = w
       canvas.height = h
       const ctx = canvas.getContext('2d')

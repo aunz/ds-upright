@@ -23,6 +23,7 @@
     "parcel-bundler": "^1.11.0"
   },
   "dependencies": {
+    "@tensorflow-models/posenet": "^0.2.3",
     "normalize.css": "^8.0.1"
   }
 }
