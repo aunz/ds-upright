@@ -4,17 +4,22 @@
   "description": "A project in Insight Data Science",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aunz/ds-upright.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kien Ly",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/aunz/ds-upright/issues"
   },
-  "homepage": "https://github.com/aunz/ds-upright#readme"
+  "homepage": "https://github.com/aunz/ds-upright#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.11.0"
+  }
 }
