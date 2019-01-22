@@ -15,9 +15,16 @@
 </head>
 
 <body>
-  <button>START</button>
-  <video id="player"></video>
-  <canvas id="myCanvas"></canvas>  
+  <button id="control">START</button>
+  <video id="player" playsinline style=" -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  display: none;
+  "></video>
+  <canvas id="myCanvas"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet@0.2.3"></script>
   <script src="./index.js"></script>
 </body>
 

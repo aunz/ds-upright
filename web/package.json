@@ -20,10 +20,15 @@
   },
   "homepage": "https://github.com/aunz/ds-upright#readme",
   "devDependencies": {
+    "babel-core": "^6.26.3",
     "parcel-bundler": "^1.11.0"
   },
   "dependencies": {
     "@tensorflow-models/posenet": "^0.2.3",
+    "@tensorflow/tfjs": "^0.14.2",
     "normalize.css": "^8.0.1"
-  }
+  },
+  "browserslist": [
+    "last 1 Chrome version"
+  ]
 }
