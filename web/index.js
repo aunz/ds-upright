@@ -5,13 +5,14 @@
 
 const w = 320
 const h = w * 3 / 4
+let stop = false
 
 const minPoseConfidence = 0.1
 const minPartConfidence = 0.5
 
-const imageScaleFactor = 0.5
-const flipHorizontal = true
-const outputStride = 16
+const imageScaleFactor = 1 // 0 ~ 1, higher: better accuracy but lower speed
+const flipHorizontal = true // because fed thru webcam
+const outputStride = 16 // 8, 16, 32; higher: better accuracy & lower speed
 
 navigator.mediaDevices.getUserMedia({
   audio: false,
@@ -27,7 +28,6 @@ navigator.mediaDevices.getUserMedia({
     player.height = h
 
     player.srcObject = stream
-    player.hidden = true
 
     await new Promise(resolve => {
       player.onloadedmetadata = () => { resolve(player) }
@@ -43,28 +43,31 @@ navigator.mediaDevices.getUserMedia({
     const net = await posenet.load()
     console.log('posenet loaded')
 
-    let frame = requestAnimationFrame(detectPose)
-
     async function detectPose() {
-      ctx.clearRect(0, 0, w, h)
-      ctx.save()
-      ctx.scale(-1, 1)
-      ctx.translate(-w, 0)
-      ctx.drawImage(player, 0, 0, w, h)
-      ctx.restore()
+      if (!stop) {
+        const poses = await net.estimateSinglePose(player, imageScaleFactor, flipHorizontal, outputStride)
+        ctx.clearRect(0, 0, w, h)
+        ctx.save()
+        ctx.scale(-1, 1)
+        ctx.translate(-w, 0)
+        ctx.drawImage(player, 0, 0, w, h)
+        ctx.restore()
 
-      const poses = await net.estimateSinglePose(player, imageScaleFactor, flipHorizontal, outputStride)
-      drawKeypoints(poses.keypoints, 0.1, ctx)
-      frame = requestAnimationFrame(detectPose)
+        drawKeypoints(poses.keypoints, minPartConfidence, ctx)
+        
+      }
+      requestAnimationFrame(detectPose)
       
     }
 
+    detectPose()
 
-    document.getElementById('control').addEventListener('click', function () {
-      window.cancelAnimationFrame(frame)
-    })
+
   })
 
+document.getElementById('control').addEventListener('click', function () {
+  stop = !stop
+})
 
 function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
   for (let i = 0; i < keypoints.length; i++) {
