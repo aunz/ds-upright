@@ -4,6 +4,7 @@
 
 web/dist
 tmp
+data
 
 ### Node ###
 # Logs
