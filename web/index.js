@@ -58,21 +58,20 @@ navigator.mediaDevices.getUserMedia({
 
 })
 
-async function detectPose(net, video, ctx) {  
-  if (!state.stopped) {
-    const poses = await net.estimateSinglePose(video, imageScaleFactor, flipHorizontal, outputStride)
-    ctx.clearRect(0, 0, w, h)
-    ctx.save()
-    ctx.scale(-1, 1)
-    ctx.translate(-w, 0)
-    ctx.drawImage(video, 0, 0, w, h)
-    ctx.restore()
+async function detectPose(net, imageSrc, ctx) {  
+  const poses = await net.estimateSinglePose(imageSrc, imageScaleFactor, flipHorizontal, outputStride)
+  ctx.clearRect(0, 0, w, h)
+  ctx.save()
+  ctx.scale(-1, 1)
+  ctx.translate(-w, 0)
+  ctx.drawImage(imageSrc, 0, 0, w, h)
+  ctx.restore()
 
-    drawKeypoints(poses.keypoints, minPartConfidence, ctx)
-    
-  }
-  requestAnimationFrame(() => detectPose(net, video, ctx))
-  
+  drawKeypoints(poses.keypoints, minPartConfidence, ctx)
+
+  if (!state.stopped) requestAnimationFrame(() => {
+    detectPose()
+  })
 }
 
 
