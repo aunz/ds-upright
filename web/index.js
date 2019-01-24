@@ -2,8 +2,8 @@
 // import * as posenet from '@tensorflow-models/posenet'
 
 
-const w = 320 // video width & height
-const h = w * 3 / 4
+const w = 480 // video width & height
+const h = w * 9 / 16
 
 const imageScaleFactor = 1 // 0 ~ 1, higher: better accuracy but lower speed
 const flipHorizontal = true // because fed thru webcam
@@ -59,19 +59,20 @@ navigator.mediaDevices.getUserMedia({
 })
 
 async function detectPose(net, imageSrc, ctx) {  
-  const poses = await net.estimateSinglePose(imageSrc, imageScaleFactor, flipHorizontal, outputStride)
-  ctx.clearRect(0, 0, w, h)
-  ctx.save()
-  ctx.scale(-1, 1)
-  ctx.translate(-w, 0)
-  ctx.drawImage(imageSrc, 0, 0, w, h)
-  ctx.restore()
+  if (!state.stopped) {
+    const poses = await net.estimateSinglePose(imageSrc, imageScaleFactor, flipHorizontal, outputStride)
+    ctx.clearRect(0, 0, w, h)
+    ctx.save()
+    ctx.scale(-1, 1)
+    ctx.translate(-w, 0)
+    ctx.drawImage(imageSrc, 0, 0, w, h)
+    ctx.restore()
 
-  drawKeypoints(poses.keypoints, minPartConfidence, ctx)
+    drawKeypoints(poses.keypoints, minPartConfidence, ctx)
+    
+  }
 
-  if (!state.stopped) requestAnimationFrame(() => {
-    detectPose()
-  })
+  requestAnimationFrame(() => { detectPose(net, imageSrc, ctx) })
 }
 
 
