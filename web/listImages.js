@@ -12,7 +12,7 @@ app.use(function(req, res, next) {
 })
 app.use(express.static('../data/'))
 
-app.get('/a', (req, res) => { res.send(filesA) })
-app.get('/b', (req, res) => { res.send(filesB) })
+app.get('/a.json', (req, res) => { res.send(filesA) })
+app.get('/b.json', (req, res) => { res.send(filesB) })
 
 app.listen(3000, () => { console.log('Server is up') })
