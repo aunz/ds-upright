@@ -1,0 +1,28 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="./node_modules/normalize.css/normalize.css">
+  <link rel="stylesheet" href="./main.css">
+</head>
+
+<body>
+  <button id="control">START</button>
+  <video id="video" muted playinline controls preload="metadata" style="display: none">
+    <source src="../data/a1.mp4" type="video/mp4">
+  </video>
+  <canvas id="canvas"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet@0.2.3"></script>
+  <script src="./index2.js"></script>
+</body>
+
+</html>
