@@ -17,7 +17,11 @@ img.height = h
 posenet.load().then(async net => {
   console.log('posenet loaded')
   
-  detectPose(net, img)
+  img.src = 'http://localhost:3000/a/a1 001.jpg'
+  img.addEventListener('load', () => {
+    detectPose(net, img)
+    
+  })
 })
 
 // })
