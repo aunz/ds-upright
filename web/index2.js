@@ -35,7 +35,6 @@ const ctx = canvas.getContext('2d')
 posenet.load().then(async net => {
   console.log('posenet loaded')
   
-  await new Promise(res => { setTimeout(res, 500) })
   detectPose(net, video, ctx)
   video.play()
 
@@ -61,6 +60,7 @@ async function detectPose(net, imageSrc, ctx) {
     ctx.restore()
 
     drawKeypoints(poses.keypoints, minPartConfidence, ctx)
+    predict(poses.keypoints)
     
   }
 
@@ -81,4 +81,19 @@ function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
     ctx.fill()
     // ctx.fillText(keypoint.part, x * scale, y * scale)
   }
+}
+
+function predict(keypoints) {
+  // intercept and coef trained from python
+  const intercept = 17.24016087
+  const coef = [-11.59297432, -10.48313072, -11.24994747, -11.06962914, -8.26816833, -6.85886515, -4.83989711, -0.72550568, -2.80627788, -1.84612645, -4.40763068, 9.69464209, 4.04290725, 6.51791598, 5.20727441, 1.36463445, 2.36079032, 8.79429058, 7.34754462, 7.04710324, 6.00282833, 4.35750347, 3.0650297, 3.49635641, 2.20437731, 1.81695029, 1.90782238, 2.83214111, 0.07692417, -0.96839343, -3.14235201, -3.8216309, -0.91195957, -1.31549044]
+
+  let r = intercept
+  for (let i = 0; i < keypoints.length; i++) {
+    const { x, y } = keypoints[i].position
+    r += x * coef[i] / 480 + y * coef[i + 17] / 480 // because there are 17 points
+  }
+
+  r = 1 / (1 + Math.exp(-r))
+  return r
 }
