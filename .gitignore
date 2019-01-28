@@ -4,7 +4,9 @@
 
 web/dist
 tmp
-data
+/data/a
+/data/b
+/data/video
 
 ### Node ###
 # Logs
