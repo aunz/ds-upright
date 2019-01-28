@@ -8,6 +8,8 @@ tmp
 /data/b/
 /data/video/
 data/*.zip
+data/a_grayscale/
+data/b_grayscale/
 
 ### Node ###
 # Logs
