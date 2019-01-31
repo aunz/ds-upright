@@ -13,10 +13,12 @@
   <link rel="stylesheet" href="./node_modules/normalize.css/normalize.css">
   <link href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./main.css">
+  <link rel="stylesheet" href="./assets/fontello-embedded.css">
+  <link rel="stylesheet" href="./assets/animation.css">
 </head>
 
 <body>
-  <header id="header" class="m1 h2">UPRIGHT</header>
+  <header id="header" class="m1 h2">UPRIGHT <i class="icon-up-circled"></i></header>
   <hr>
   <div>
     <h3>Intro</h3>
@@ -24,11 +26,19 @@
   </div>
   <div>
     <h3>Play</h3>
-  </div>
-  <div>
-    <video id="video" muted playsinline class="display-none"></video>
-    <canvas id="canvas" class="hidden"></canvas>
-    
+    <div class="flex justify-between " style="min-height: 270px">
+      <div class="border col-3">
+        <button id="play-stop" class="h1 m4 icon-play color0 display-none"></button>
+      </div>
+      <div class="flex items-center content-center justify-center col-6">
+        <i id="initial-loader" class="h1 m4 icon-arrows-cw color0 animate-spin"></i>
+        <video id="video" muted playsinline class="display-none"></video>
+        <canvas id="canvas" class="display-none"></canvas>
+      </div>
+      <div class="col-3 border">
+        some output
+      </div>
+    </div>
   </div>
   <footer class="flex justify-center content-center item-center p1">
     <a class="flex item-center" href="https://github.com/aunz/ds-upright">

@@ -1,6 +1,8 @@
 const w = 480 // video width & height
 const h = w * 9 / 16
 
+const rootUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : '/'
+
 const imageScaleFactor = 1 // 0 ~ 1, higher: better accuracy but lower speed
 const flipHorizontal = true // because fed thru webcam
 const outputStride = 16 // 8, 16, 32; higher: better accuracy & lower speed
@@ -8,15 +10,28 @@ const outputStride = 16 // 8, 16, 32; higher: better accuracy & lower speed
 const minPoseConfidence = 0.1
 const minPartConfidence = 0.5
 
+// app state
 const state = {
   color: '#2ECC40', // green 
   showDot: true, // show the dots on image
-  showCanvas: true,
-
-
+  play: 0, // video playing
 }
 
-async function setupCamera() {
+
+// dom eventListeners
+function listenerButtonPlay(video) {
+  return function (e) {
+    if (state.play) { video.pause() } else video.play()
+    state.play = !state.play
+
+    ;['icon-play', 'icon-pause'].forEach(i => {
+      e.currentTarget.classList.toggle(i)
+    })    
+  }
+}
+
+
+function setupCamera() {
   return navigator.mediaDevices.getUserMedia({
     audio: false,
     video: {
@@ -31,12 +46,58 @@ async function setupCamera() {
     video.srcObject = stream
     return new Promise(res => {
       video.onloadedmetadata = () => {
-        video.play()
         res(video)
       }
     })
   })
 } 
+
+
+
+function drawToCanvas(ctx, imgSrc) {
+  if (state.play) {
+    ctx.clearRect(0, 0, w, h)
+    ctx.save()
+    ctx.scale(-1, 1)
+    ctx.translate(-w, 0)
+    ctx.drawImage(imgSrc, 0, 0, w, h)
+    ctx.restore()
+  }
+}
+
+// a requestAnimation to loop thru stuff
+function loop(net, model, coef, imgSrc, ctx) {
+  requestAnimationFrame(() => {
+    drawToCanvas(ctx, imgSrc)
+
+  })
+}
+
+// ready & initate the page with video, model, coef etc
+(async function () {
+  const [net, model, coef, video] = await Promise.all([
+    posenet.load(),
+    tf.loadModel(rootUrl + 'trained_models/model_cnn_2/model.json'),
+    fetch(rootUrl + 'trained_models/intercept_coefs.json').then(r => r.json()), // intercepts and coefs for logistic regression
+    setupCamera(),
+  ])
+
+  // remove the spinning loader and register event for the play stop button
+  document.getElementById('initial-loader').remove()
+  document.getElementById('play-stop').classList.toggle('display-none')
+  document.getElementById('play-stop').addEventListener('click', listenerButtonPlay(video))
+
+  // set up canvas
+  const canvas = document.getElementById('canvas')
+  canvas.classList.remove('display-none')
+  canvas.width = w
+  canvas.height = h
+  
+  const ctx = canvas.getContext('2d')
+
+  loop(net, model, coef, video, ctx)
+
+}())
 
 // navigator.mediaDevices.getUserMedia({
 //   audio: false,
@@ -49,12 +110,8 @@ async function setupCamera() {
 
 //   // set up video
 
-//   const canvas = document.getElementById('canvas')
-//   canvas.width = w
-//   canvas.height = h
 
 //   // context for the canvas
-//   const ctx = canvas.getContext('2d')
 
 //   // load the model
 //   posenet.load().then(net => {
@@ -91,16 +148,16 @@ async function setupCamera() {
 // }
 
 
-// function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
-//   for (let i = 0; i < keypoints.length; i++) {
-//     const keypoint = keypoints[i]
+function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
+  for (let i = 0; i < keypoints.length; i++) {
+    const keypoint = keypoints[i]
 
-//     if (keypoint.score < minConfidence) continue
-//     const { y, x } = keypoint.position
+    if (keypoint.score < minConfidence) continue
+    const { y, x } = keypoint.position
 
-//     ctx.beginPath()
-//     ctx.arc(x * scale, y * scale, 3, 0, 2 * Math.PI)
-//     ctx.fillStyle = state.color
-//     ctx.fill()
-//   }
-// }
+    ctx.beginPath()
+    ctx.arc(x * scale, y * scale, 3, 0, 2 * Math.PI)
+    ctx.fillStyle = state.color
+    ctx.fill()
+  }
+}

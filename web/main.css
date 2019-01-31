@@ -13,8 +13,8 @@ html {
 
 /* atomic element */
 
+.color0 { color: var(--main-color) }
 .white { color: #fff }
-
 
 
 /* class and id */
@@ -36,4 +36,16 @@ hr {
 
 footer {
   background-color: var(--main-color);
+}
+
+button {
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s
+}
+
+button:hover {
+  opacity: 0.75
 }
