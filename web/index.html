@@ -24,10 +24,10 @@
     <h3>Intro</h3>
     Lorem ipsum dolor sit amet, porta facilisis mauris quisque nec, venenatis ut eget. Ac ad. Turpis wisi vehicula nullam nunc lacus leo. Egestas ut ante lacus vestibulum velit, et per pharetra non a. Purus nunc mollis maecenas, placerat consequat, fusce ipsum, ipsum viverra elit neque eu turpis.
   </div>
-  <div>
+  <div class="mb1">
     <h3>Play</h3>
     <div class="flex justify-between " style="min-height: 270px">
-      <div class="border col-3">
+      <div class="col-3">
         <button id="play-stop" class="h1 m4 icon-play color0 display-none"></button>
       </div>
       <div class="flex items-center content-center justify-center col-6">
@@ -35,8 +35,9 @@
         <video id="video" muted playsinline class="display-none"></video>
         <canvas id="canvas" class="display-none"></canvas>
       </div>
-      <div class="col-3 border">
-        some output
+      <div class="col-3">
+        <p id="message" class="center h5" style="white-space: pre"></p>
+        <p id="output" class="h1 center m1" style="font-size: 5rem"></p>
       </div>
     </div>
   </div>
