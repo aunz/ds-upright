@@ -1,0 +1,39 @@
+/* variables */
+:root {
+  --main-color: #FF851B;
+}
+
+/* html5 boilerplate */
+
+html {
+  color: #333;
+  font-size: 1rem;
+  font-family: sans-serif; 
+}
+
+/* atomic element */
+
+.white { color: #fff }
+
+
+
+/* class and id */
+
+header {
+  font-weight: 900;
+  color: var(--main-color);
+  text-align: center;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid var(--main-color);
+    margin: 1em 0;
+    padding: 0;
+}
+
+footer {
+  background-color: var(--main-color);
+}
