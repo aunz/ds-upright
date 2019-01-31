@@ -4,20 +4,38 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title></title>
+  <title>UPRIGHT - Fast Posture Detector</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Place favicon.ico in the root directory -->
 
   <link rel="stylesheet" href="./node_modules/normalize.css/normalize.css">
+  <link href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./main.css">
 </head>
 
 <body>
-  <button id="control">START</button>
-  <video id="video" muted playsinline style="display: none;"></video>
-  <canvas id="canvas"></canvas>
+  <header id="header" class="m1 h2">UPRIGHT</header>
+  <hr>
+  <div>
+    <h3>Intro</h3>
+    Lorem ipsum dolor sit amet, porta facilisis mauris quisque nec, venenatis ut eget. Ac ad. Turpis wisi vehicula nullam nunc lacus leo. Egestas ut ante lacus vestibulum velit, et per pharetra non a. Purus nunc mollis maecenas, placerat consequat, fusce ipsum, ipsum viverra elit neque eu turpis.
+  </div>
+  <div>
+    <h3>Play</h3>
+  </div>
+  <div>
+    <video id="video" muted playsinline class="display-none"></video>
+    <canvas id="canvas" class="hidden"></canvas>
+    
+  </div>
+  <footer class="flex justify-center content-center item-center p1">
+    <a class="flex item-center" href="https://github.com/aunz/ds-upright">
+      <img src="./assets/GitHub-Mark-Light-32px.png" width=16 height=16>
+    </a>
+    <span class="ml1 h6 self-center white">Kien Ly</span>
+  </footer>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet@0.2.3"></script>
   <script src="./index.js"></script>
