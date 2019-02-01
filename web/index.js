@@ -123,33 +123,34 @@ function predictCNN(model, keypoints) {
   return 1 - model.predict(ts).dataSync()[0]
 }
 
-// a requestAnimation to loop thru stuff
+// a requestAnimationFrame to loop thru stuff
 async function loop(net, model, intCoefs, imgSrc, ctx) {
   if (state.play) {
     const poses = await getPoses(net, imgSrc)
-    {
-      const p0 = poses.keypoints[0] // nose
-      const p15 = poses.keypoints[15] // leftAnkle
-      const p16 = poses.keypoints[16] // rightAnkle
-      console.log(
-        p0.score.toFixed(3), ~~p0.position.x, ~~p0.position.y, '\n', 
-        p15.score.toFixed(3), ~~p15.position.x, ~~p15.position.y, '\n',
-        p16.score.toFixed(3), ~~p16.position.x, ~~p16.position.y, 
-      )
-      
-    }
+    const poseIsConfident = poses.score > minPoseConfidence &&
+      (poses.keypoints[15].score > 0.5 || poses.keypoints[16].score > 0.5)
+    // {
+    //   const p0 = poses.keypoints[0] // nose
+    //   const p15 = poses.keypoints[15] // leftAnkle
+    //   const p16 = poses.keypoints[16] // rightAnkle
+    //   console.log(
+    //     p0.score.toFixed(3), ~~p0.position.x, ~~p0.position.y, '\n', 
+    //     p15.score.toFixed(3), ~~p15.position.x, ~~p15.position.y, '\n',
+    //     p16.score.toFixed(3), ~~p16.position.x, ~~p16.position.y, 
+    //   )      
+    // }
     drawToCanvas(ctx, imgSrc)
-    if (poses.score < minPoseConfidence) {
+    if (!poseIsConfident) {
       message.textContent = 'Detecting posture…'
-      output.textContent = 'Try to move away a bit'
+      output.textContent = 'Move away'
       message.classList.add('blink')
     } else {
       message.classList.remove('blink')
       message.textContent = ''
       if (state.showDot) drawKeypoints(poses.keypoints, minPartConfidence, ctx)
       // const score = state.predictMode === 'lr' ? predictLR(intCoefs, poses.keypoints) : predictCNN(model, poses.keypoints)
-      // const score = predictLR(intCoefs, poses.keypoints)
-      const score = predictNN(model, poses.keypoints)
+      const score = predictLR(intCoefs, poses.keypoints)
+      // const score = predictNN(model, poses.keypoints)
       // const score = predictCNN(model, poses.keypoints)
       output.textContent = score.toFixed(3) + '\n' + poses.score.toFixed(3)
       
@@ -169,8 +170,8 @@ async function loop(net, model, intCoefs, imgSrc, ctx) {
 (async function () {
   const [net, model, intCoefs, video] = await Promise.all([
     posenet.load(),
-    // tf.loadModel(rootUrl + 'trained_models/model_cnn_5/model.json'),
-    tf.loadModel(rootUrl + 'trained_models/model_NN_2_0/model.json'),
+    tf.loadModel(rootUrl + 'trained_models/model_cnn_5/model.json'),
+    // tf.loadModel(rootUrl + 'trained_models/model_cnn_2/model.json'),
     fetch(rootUrl + 'trained_models/intercept_coefs.json').then(r => r.json()), // intercepts and coefs for logistic regression
     setupCamera(),
   ])
