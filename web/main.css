@@ -1,6 +1,7 @@
 /* variables */
 :root {
   --main-color: #FF851B;
+  --secondary-color: #0074D9;
 }
 
 /* html5 boilerplate */
@@ -14,6 +15,7 @@ html {
 /* atomic element */
 
 .color0 { color: var(--main-color) }
+.color1 { color: var(--secondary-color) }
 .white { color: #fff }
 
 
