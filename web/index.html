@@ -17,20 +17,21 @@
   <link rel="stylesheet" href="./assets/animation.css">
 </head>
 
-<body>
+<body class="p2">
   <header id="header" class="m1 h2">UPRIGHT <i class="icon-up-circled"></i></header>
   <hr>
   <div>
-    <h3>Intro</h3>
+    <h3 class="color0 color">Intro</h3>
     Lorem ipsum dolor sit amet, porta facilisis mauris quisque nec, venenatis ut eget. Ac ad. Turpis wisi vehicula nullam nunc lacus leo. Egestas ut ante lacus vestibulum velit, et per pharetra non a. Purus nunc mollis maecenas, placerat consequat, fusce ipsum, ipsum viverra elit neque eu turpis.
   </div>
-  <div class="mb1">
-    <h3>Play</h3>
+  <hr>
+  <div class="my1">
+    <h3 class="color0 bold">Play</h3>
     <div class="flex justify-between " style="min-height: 270px">
       <div class="col-3">
         <button id="play-stop" class="h1 m4 icon-play color0 display-none"></button>
       </div>
-      <div class="flex items-center content-center justify-center col-6">
+      <div class="flex items-center content-center justify-center col-6" style="min-height: 17rem">
         <i id="initial-loader" class="h1 m4 icon-arrows-cw color0 animate-spin"></i>
         <video id="video" muted playsinline class="display-none"></video>
         <canvas id="canvas" class="display-none"></canvas>
@@ -41,7 +42,39 @@
       </div>
     </div>
   </div>
-  <footer class="flex justify-center content-center item-center p1">
+  <hr>
+  <div class="flex justify-around">
+    <div class="flex flex-column col-2 items-center">
+      <img src="./assets/ai.png" style="width: 6rem">
+      <p class="my1 center color1">AI</p>
+      <p class="m0 h5 center">State-of-the computer vision for posture detection</p>
+    </div>
+    <div class="col-2 bold">
+      <p class="my1 center color1">LOCAL</p>
+      <p class="m0 h5 center">Your data are never sent over the internet</p>
+    </div>
+    <div class="flex flex-column col-2 items-center">
+      <img src="./assets/feather.png" style="width: 6rem">
+      <p class="my1 center color1">FAST</p>
+      <p class="m0 h5 center">Light weight & blazing fast</p>
+    </div>
+    <div class="col-2 bold">
+      <p class="my1 center color1">OPEN</p>
+      <p class="m0 h5 center">Blah blah blah</p>
+    </div>
+  </div>
+  <hr>
+  <div>
+    <h3 class="color0">How it works</h3>
+    Lorem ipsum dolor sit amet, porta facilisis mauris quisque nec, venenatis ut eget. Ac ad. Turpis wisi vehicula nullam nunc lacus leo. Egestas ut ante lacus vestibulum velit, et per pharetra non a. Purus nunc mollis maecenas, placerat consequat, fusce ipsum, ipsum viverra elit neque eu turpis.
+    <h4 class="color0">Convolution Neural Network</h4>
+  </div>
+  <hr>
+  <div>
+    <h3 class="color0">Limitation</h3>
+    Lorem ipsum dolor sit amet, porta facilisis mauris quisque nec, venenatis ut eget. Ac ad. Turpis wisi vehicula nullam nunc lacus leo. Egestas ut ante lacus vestibulum velit, et per pharetra non a. Purus nunc mollis maecenas, placerat consequat, fusce ipsum, ipsum viverra elit neque eu turpis.
+  </div>
+  <footer class="mt1 flex justify-center content-center item-center p1">
     <a class="flex item-center" href="https://github.com/aunz/ds-upright">
       <img src="./assets/GitHub-Mark-Light-32px.png" width=16 height=16>
     </a>
