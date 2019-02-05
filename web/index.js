@@ -34,7 +34,6 @@ function listenerButtonPlay(video) {
   }
 }
 
-
 function setupCamera() {
   return navigator.mediaDevices.getUserMedia({
     audio: false,
@@ -54,9 +53,7 @@ function setupCamera() {
       }
     })
   })
-} 
-
-
+}
 
 function drawToCanvas(ctx, imgSrc) {
   ctx.clearRect(0, 0, w, h)
@@ -102,7 +99,6 @@ function predictNN(model, keypoints) {
   const x = []
   const y = []
   for (const i of keypoints) {
-
     x.push(i.position.x)
     y.push(i.position.y)
   }
