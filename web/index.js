@@ -15,7 +15,7 @@ const state = {
   color: '#2ECC40', // green 
   showDot: true, // show the dots on image
   play: 0, // video playing
-  predictMode: 'lr', // [lr, cnn]: logistic regression, CNN  
+  predictMode: 'lr', // [lr, nn, cnn]: logistic regression, NN, CNN  
 }
 
 // dom elements
@@ -67,12 +67,22 @@ function drawToCanvas(ctx, imgSrc) {
   ctx.restore()
 }
 
-function getPoses(net, imgSrc) {
-  return net.estimateSinglePose(imgSrc, imageScaleFactor, flipHorizontal, outputStride)
+function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
+  for (let i = 0; i < keypoints.length; i++) {
+    const keypoint = keypoints[i]
+
+    if (keypoint.score < minConfidence) continue
+    const { y, x } = keypoint.position
+
+    ctx.beginPath()
+    ctx.arc(x * scale, y * scale, 3, 0, 2 * Math.PI)
+    ctx.fillStyle = state.color
+    ctx.fill()
+  }
 }
 
-function isPoseScoreLow(poses) {
-  return poses.score < minPoseConfidence || poses.keypoints.some(e => e.score < minPartConfidence)
+function getPoses(net, imgSrc) {
+  return net.estimateSinglePose(imgSrc, imageScaleFactor, flipHorizontal, outputStride)
 }
 
 // predict poses using logistic regression
@@ -87,6 +97,7 @@ function predictLR({ int, coefs }, keypoints) {
   return r
 }
 
+// predict poses using conventional neural network
 function predictNN(model, keypoints) {
   const x = []
   const y = []
@@ -100,11 +111,11 @@ function predictNN(model, keypoints) {
   return model.predict(ts).dataSync()[0]
 }
 
+// predict poses using CNN
 function predictCNN(model, keypoints) {
   const rh = 135 // reduce the dimension
   const rw = 240
 
-  // const img = new Array(h).fill(0).map(() => new Array(w).fill(0).map(() => [0]))
   const img = [] // img pixels based on keypoints
   for (let i = -1; ++i < rh;) {
     img[i] = []
@@ -127,34 +138,21 @@ function predictCNN(model, keypoints) {
 async function loop(net, model, intCoefs, imgSrc, ctx) {
   if (state.play) {
     const poses = await getPoses(net, imgSrc)
-    const poseIsConfident = poses.score > minPoseConfidence &&
-      (poses.keypoints[15].score > 0.5 || poses.keypoints[16].score > 0.5)
-    // {
-    //   const p0 = poses.keypoints[0] // nose
-    //   const p15 = poses.keypoints[15] // leftAnkle
-    //   const p16 = poses.keypoints[16] // rightAnkle
-    //   console.log(
-    //     p0.score.toFixed(3), ~~p0.position.x, ~~p0.position.y, '\n', 
-    //     p15.score.toFixed(3), ~~p15.position.x, ~~p15.position.y, '\n',
-    //     p16.score.toFixed(3), ~~p16.position.x, ~~p16.position.y, 
-    //   )      
-    // }
+    // const poseIsConfident = poses.score > minPoseConfidence && (poses.keypoints[15].score > 0.5 || poses.keypoints[16].score > 0.5)
+
     drawToCanvas(ctx, imgSrc)
-    if (!poseIsConfident) {
-      message.textContent = 'Detecting posture…'
-      output.textContent = 'Move away'
-      message.classList.add('blink')
-    } else {
-      message.classList.remove('blink')
-      message.textContent = ''
-      if (state.showDot) drawKeypoints(poses.keypoints, minPartConfidence, ctx)
-      // const score = state.predictMode === 'lr' ? predictLR(intCoefs, poses.keypoints) : predictCNN(model, poses.keypoints)
-      const score = predictLR(intCoefs, poses.keypoints)
-      // const score = predictNN(model, poses.keypoints)
-      // const score = predictCNN(model, poses.keypoints)
-      output.textContent = score.toFixed(3) + '\n' + poses.score.toFixed(3)
-      
-    }
+
+    message.classList.remove('blink')
+    message.textContent = ''
+    if (state.showDot) drawKeypoints(poses.keypoints, minPartConfidence, ctx)
+
+    // const score = state.predictMode === 'lr' ? predictLR(intCoefs, poses.keypoints) : predictCNN(model, poses.keypoints)
+    // const score = predictLR(intCoefs, poses.keypoints)
+    const score = predictNN(model, poses.keypoints)
+    // const score = predictCNN(model, poses.keypoints)
+
+    output.textContent = score.toFixed(3)
+
   } else {
     message.classList.remove('blink')
     message.textContent = ''
@@ -170,8 +168,8 @@ async function loop(net, model, intCoefs, imgSrc, ctx) {
 (async function () {
   const [net, model, intCoefs, video] = await Promise.all([
     posenet.load(),
-    tf.loadModel(rootUrl + 'trained_models/model_cnn_5/model.json'),
-    // tf.loadModel(rootUrl + 'trained_models/model_cnn_2/model.json'),
+    // tf.loadModel(rootUrl + 'trained_models/model_cnn_5/model.json'),
+    tf.loadModel(rootUrl + 'trained_models/model_NN_2_0/model.json'),
     fetch(rootUrl + 'trained_models/intercept_coefs.json').then(r => r.json()), // intercepts and coefs for logistic regression
     setupCamera(),
   ])
@@ -192,18 +190,3 @@ async function loop(net, model, intCoefs, imgSrc, ctx) {
   loop(net, model, intCoefs, video, ctx)
 
 }())
-
-
-function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
-  for (let i = 0; i < keypoints.length; i++) {
-    const keypoint = keypoints[i]
-
-    if (keypoint.score < minConfidence) continue
-    const { y, x } = keypoint.position
-
-    ctx.beginPath()
-    ctx.arc(x * scale, y * scale, 3, 0, 2 * Math.PI)
-    ctx.fillStyle = state.color
-    ctx.fill()
-  }
-}
