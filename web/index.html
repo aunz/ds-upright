@@ -18,15 +18,43 @@
 </head>
 
 <body class="p2">
-  <header id="header" class="m1 h2">UPRIGHT <i class="icon-up-circled"></i></header>
-  <hr>
-  <div>
-    <h3 class="color0 color">Intro</h3>
-    Lorem ipsum dolor sit amet, porta facilisis mauris quisque nec, venenatis ut eget. Ac ad. Turpis wisi vehicula nullam nunc lacus leo. Egestas ut ante lacus vestibulum velit, et per pharetra non a. Purus nunc mollis maecenas, placerat consequat, fusce ipsum, ipsum viverra elit neque eu turpis.
+  <header class="m1">
+    <h1 class="mb0 bold">UPRIGHT <i class="icon-up-circled"></i></h1>
+    <span class="mt0 italic" style="font-weight: 600">Better posture, once at a time</span>
+  </header>
+  <hr class="my3">
+  <div class="flex justify-around">
+    <div class="flex flex-column col-2 items-center">
+      <img src="./assets/ai.png" style="width: 6rem">
+      <p class="my2 center bold color1">AI</p>
+      <p class="m0 h5 center">State-of-the-art computer vision for posture detection</p>
+    </div>
+    <div class="flex flex-column col-2 items-center">
+      <img src="./assets/computer1.jpg" style="width: 6rem">
+      <p class="my2 center bold color1">LOCAL</p>
+      <p class="m0 h5 center">Your data are never sent over the internet</p>
+    </div>
+    <div class="flex flex-column col-2 items-center">
+      <img src="./assets/feather.png" style="width: 6rem">
+      <p class="my2 center bold color1">FAST</p>
+      <p class="m0 h5 center">Light weight & blazing fast</p>
+    </div>
+    <div class="flex flex-column col-2 items-center">
+      <img src="./assets/open-source.png" style="width: 6rem">
+      <p class="my2 center bold color1">OPEN</p>
+      <p class="m0 h5 center">The source code is open for anyone</p>
+    </div>
   </div>
-  <hr>
+  <hr class="my3">
+  <div>
+    <h3 class="color0">Intro</h3>
+    <p><b>UPRIGHT</b> is a posture tracking app. It was built using open source tools to provide you state-of-the-art technology right at your browser 💻 📱.</p>
+    <p>With a webcam, you can monitor your posture in real time. Better, your data are processed locally, complete privacy is ensured 😉.</p>
+    <p>Click the ▶ button below and start tracking. Your aim is to get the number as low as possible, less than 0.1.</p>
+  </div>
+  <hr class="my3">
   <div class="my1">
-    <h3 class="color0 bold">Play</h3>
+    <h3 class="color0">Play</h3>
     <div class="flex justify-between " style="min-height: 270px">
       <div class="col-3">
         <button id="play-stop" class="h1 m4 icon-play color0 display-none"></button>
@@ -42,39 +70,20 @@
       </div>
     </div>
   </div>
-  <hr>
-  <div class="flex justify-around">
-    <div class="flex flex-column col-2 items-center">
-      <img src="./assets/ai.png" style="width: 6rem">
-      <p class="my1 center color1">AI</p>
-      <p class="m0 h5 center">State-of-the computer vision for posture detection</p>
-    </div>
-    <div class="col-2 bold">
-      <p class="my1 center color1">LOCAL</p>
-      <p class="m0 h5 center">Your data are never sent over the internet</p>
-    </div>
-    <div class="flex flex-column col-2 items-center">
-      <img src="./assets/feather.png" style="width: 6rem">
-      <p class="my1 center color1">FAST</p>
-      <p class="m0 h5 center">Light weight & blazing fast</p>
-    </div>
-    <div class="col-2 bold">
-      <p class="my1 center color1">OPEN</p>
-      <p class="m0 h5 center">Blah blah blah</p>
-    </div>
-  </div>
-  <hr>
-  <div>
+  <hr class="my3">
+  <div class="justify">
     <h3 class="color0">How it works</h3>
-    Lorem ipsum dolor sit amet, porta facilisis mauris quisque nec, venenatis ut eget. Ac ad. Turpis wisi vehicula nullam nunc lacus leo. Egestas ut ante lacus vestibulum velit, et per pharetra non a. Purus nunc mollis maecenas, placerat consequat, fusce ipsum, ipsum viverra elit neque eu turpis.
-    <h4 class="color0">Convolution Neural Network</h4>
+    <p>Each frame captured from the video stream is first processed using a <a href="https://github.com/tensorflow/tfjs-models/tree/master/posenet" class="text-decoration-none">posenet</a> network to calculate coordiations of 17 key points, such as eyes, nose, ankles. These points are then feed through a <a href="https://en.wikipedia.org/wiki/Convolutional_neural_network" class="text-decoration-none">convolution neural network</a> which recognises your postures and give them scores.</p>
+    <p>A score close to <b>0</b> means you are upright, a score close to <b>1</b> means you are not. So try to get a score as close to 0 as possible.
+    </p>   
   </div>
-  <hr>
+  <hr class="my3">
   <div>
-    <h3 class="color0">Limitation</h3>
-    Lorem ipsum dolor sit amet, porta facilisis mauris quisque nec, venenatis ut eget. Ac ad. Turpis wisi vehicula nullam nunc lacus leo. Egestas ut ante lacus vestibulum velit, et per pharetra non a. Purus nunc mollis maecenas, placerat consequat, fusce ipsum, ipsum viverra elit neque eu turpis.
+    <h3 class="color0">Limitation & Disclaimer</h3>
+      <p>The app only works with a single person in a video stream</p>
+      <p>This is not a medical device</p>
   </div>
-  <footer class="mt1 flex justify-center content-center item-center p1">
+  <footer class="mt3 flex justify-center content-center item-center p1">
     <a class="flex item-center" href="https://github.com/aunz/ds-upright">
       <img src="./assets/GitHub-Mark-Light-32px.png" width=16 height=16>
     </a>
