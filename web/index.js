@@ -1,7 +1,7 @@
 const w = 480 // video width & height
 const h = w * 9 / 16
 
-const rootUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : '/'
+const rootUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : '/data/'
 
 const imageScaleFactor = 1 // 0 ~ 1, higher: better accuracy but lower speed
 const flipHorizontal = true // because fed thru webcam
