@@ -1,7 +1,7 @@
 const w = 480 // video width & height
 const h = w * 9 / 16
 
-const rootUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : '/data/'
+const rootUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : 'data/trained_models/'
 
 const imageScaleFactor = 1 // 0 ~ 1, higher: better accuracy but lower speed
 const flipHorizontal = true // because fed thru webcam
@@ -164,9 +164,9 @@ async function loop(net, model, intCoefs, imgSrc, ctx) {
 (async function () {
   const [net, model, intCoefs, video] = await Promise.all([
     posenet.load(),
-    // tf.loadModel(rootUrl + 'trained_models/model_cnn_5/model.json'),
-    tf.loadModel(rootUrl + 'trained_models/model_NN_2_0/model.json'),
-    fetch(rootUrl + 'trained_models/intercept_coefs.json').then(r => r.json()), // intercepts and coefs for logistic regression
+    // tf.loadModel(rootUrl + 'model_cnn_5/model.json'),
+    tf.loadModel(rootUrl + 'model_NN_2_0/model.json'),
+    fetch(rootUrl + 'intercept_coefs.json').then(r => r.json()), // intercepts and coefs for logistic regression
     setupCamera(),
   ])
 
