@@ -10,6 +10,7 @@ tmp
 data/*.zip
 data/a_grayscale/
 data/b_grayscale/
+.vscode
 
 ### Node ###
 # Logs
