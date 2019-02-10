@@ -17,11 +17,6 @@ Try the live demo: https://aunz.github.io/ds-upright/
 - **Solution**: a web app to track your posture and notify you when you deviate from the "optimal" posture or have been sitting for too long.
 
 ---
-### Data
-
-The data were acquired by recording participants showing various poses with some classified as "good" and some as "bad". *Disclaimer: the classification is not medically certified.*
-
----
 ### Tech stacks
 - Python
 - Numpy
@@ -35,6 +30,29 @@ The data were acquired by recording participants showing various poses with some
 ---
 ### Work flow
 
+#### Data
+
+The data were acquired by recording participants showing various poses with some classified as "good" and some as "bad". *Disclaimer: the classification is not medically certified.*
+
+Recorded video frames were extracted into images and labelled accordingly.
+
+#### Training
+
+Data were split into a training set (6000 images) and a validation set (2000 images)
+
+**Method 1**
+
+Raw images were resized to 134 × 240, turned into gray scale through a data generator and fed to CNN using Keras with TensorFlow as backend.
+
+Several CNN architectures were tried. Layers included Conv2D, MaxPooling2D, BatchNormalisation, Dropout
+
+**Method 2**
+
+Key points (such as eyes, nose, ankles) were extracted from raw images using PoseNet and saved into json files. The coordinates (x, y) of these points are used to for training a linear regression model, and a neural network model. The coordinates were also turned back into 2D images and fed into a CNN model.
+
+Training and model evaluation were performed using Jupyter notebook on Colab.
+
+The models were converted to a JavaScript compatible format and deployed on browsers.
 
 ---
 ### Road map 🗺
