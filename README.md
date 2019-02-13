@@ -4,6 +4,7 @@ A fast real-time posture detection app run in modern browsers, powered by [Tenso
 
 Try the live demo: https://aunz.github.io/ds-upright/
 
+![Posture when using a phone](./data/example_using_phone_side_view.gif)
 
 ---
 #### Requirement
