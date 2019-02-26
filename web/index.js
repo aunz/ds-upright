@@ -1,13 +1,13 @@
 const w = 480 // video width & height
 const h = w * 9 / 16
 
-const rootUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : 'data/trained_models/'
+const rootUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'data') + '/trained_models/'
 
 const imageScaleFactor = 1 // 0 ~ 1, higher: better accuracy but lower speed
 const flipHorizontal = true // because fed thru webcam
 const outputStride = 16 // 8, 16, 32; higher: better accuracy & lower speed
 
-const minPoseConfidence = 0.5
+const minPoseConfidence = 0.35
 const minPartConfidence = 0.5
 
 // app state
@@ -141,13 +141,18 @@ async function loop(net, model, intCoefs, imgSrc, ctx) {
     message.classList.remove('blink')
     message.textContent = ''
     if (state.showDot) drawKeypoints(poses.keypoints, minPartConfidence, ctx)
+    console.log(poses.score)
+    if (poses.score > minPoseConfidence) {
+      // const score = state.predictMode === 'lr' ? predictLR(intCoefs, poses.keypoints) : predictCNN(model, poses.keypoints)
+      // const score = predictLR(intCoefs, poses.keypoints)
+      const score = predictNN(model, poses.keypoints)
+      // const score = predictCNN(model, poses.keypoints)
 
-    // const score = state.predictMode === 'lr' ? predictLR(intCoefs, poses.keypoints) : predictCNN(model, poses.keypoints)
-    // const score = predictLR(intCoefs, poses.keypoints)
-    const score = predictNN(model, poses.keypoints)
-    // const score = predictCNN(model, poses.keypoints)
+      output.textContent = score.toFixed(3)      
+    } else {
+      output.textContent = '--'
+    }
 
-    output.textContent = score.toFixed(3)
 
   } else {
     message.classList.remove('blink')
